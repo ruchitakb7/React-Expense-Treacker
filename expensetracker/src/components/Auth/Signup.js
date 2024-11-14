@@ -1,0 +1,95 @@
+import React,{Fragment,useState,useEffect,useRef} from "react"
+import { Container,Button,Row,Col,Form } from "react-bootstrap"
+import "./Signup.css"
+
+const Signup=()=>{
+
+    const [loading,setLoading]=useState(false)
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const confirmpassRef=useRef()
+    let error
+    
+    const url=`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`;
+
+const signupHandler=(event)=>{
+    event.preventDefault()
+   
+    const email=emailRef.current.value;
+    const pass=passwordRef.current.value;
+    const confirmpass=confirmpassRef.current.value
+
+    
+    if(pass!==confirmpass)
+    alert('Password does not matched . Try again one More Time!')
+     else{
+        setLoading(true)
+        fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                email:email,
+                password:pass,
+                returnSecureToken:true
+            }),
+        })
+        .then((res)=>{
+            setLoading(false)
+            if(res.ok)
+                return res.json()
+            if(!res.ok)
+            {
+                return res.json().then((data)=>{
+                    error='Authentication Failed'
+                    if(data && data.error && data.error.message)
+                        error=data.error.message
+                    throw new Error(error)
+                })
+            }
+        })
+        .then((data)=>{
+            const token=data.idToken
+            console.log(token)
+            emailRef.current.value=''
+            passwordRef.current.value=''
+            confirmpassRef.current.value=''
+
+            if(token)
+                alert('Account created successfully')
+        }).catch((error)=>{
+            setLoading(false)
+            alert(error.message)
+        })
+     }
+}
+
+    return(
+        <Fragment>
+      <Container className="d-flex justify-content-center align-items-center" >
+        <div className="signupbox">
+        <Form onSubmit={signupHandler}>
+            <Form.Group>
+                <Form.Label>Email:</Form.Label>
+                <Form.Control type="text" required ref={emailRef} ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Password:</Form.Label>
+                <Form.Control type="password" required ref={passwordRef}></Form.Control>
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Confirm Password:</Form.Label>
+                <Form.Control type="password" required ref={confirmpassRef}></Form.Control>
+            </Form.Group>
+            {loading && <p>Sending...</p>}
+            <Button className="w-100 mb-3" type="submit">Sign Up</Button>
+            <Button className="w-100">Have an account? Login</Button>
+            
+        </Form>
+        </div>
+      </Container>
+      </Fragment>
+    )
+}
+export default Signup
