@@ -51,7 +51,7 @@ const Login=()=>{
                         <Form.Control type="password" ref={passwordRef}></Form.Control>
                     </Form.Group>
                     {loading && <p>sending...</p>}
-                    <Button className="w-100" type="submit">Login</Button>
+                    <Button className="w-100 mb-3" type="submit">Login</Button>
                     
                 </Form>
                 <Button className="w-100" onClick={switchpage}>Don't have account? Signup</Button>

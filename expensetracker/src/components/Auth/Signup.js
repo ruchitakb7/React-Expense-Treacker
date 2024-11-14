@@ -11,11 +11,14 @@ const Signup=()=>{
     const navigate=useNavigate()
     let error
     
-    const url=`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`;
+    const switchpage=()=>{
+        navigate('/')
+    }
 
 const signupHandler=async(event)=>{
     event.preventDefault()
-   
+    
+    const url=`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`;
     const email=emailRef.current.value;
     const pass=passwordRef.current.value;
     const confirmpass=confirmpassRef.current.value
@@ -91,7 +94,7 @@ const signupHandler=async(event)=>{
             <Button className="w-100 mb-3" type="submit">Sign Up</Button>
             
         </Form>
-        <Button className="w-100">Have an account? Login</Button>
+        <Button className="w-100" onClick={switchpage}>Have an account? Login</Button>
         </div>
       </Container>
       </Fragment>
