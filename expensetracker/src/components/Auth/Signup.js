@@ -1,18 +1,19 @@
 import React,{Fragment,useState,useEffect,useRef} from "react"
 import { Container,Button,Row,Col,Form } from "react-bootstrap"
 import "./Signup.css"
-
+import { useNavigate } from "react-router-dom"
 const Signup=()=>{
 
     const [loading,setLoading]=useState(false)
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmpassRef=useRef()
+    const navigate=useNavigate()
     let error
     
     const url=`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`;
 
-const signupHandler=(event)=>{
+const signupHandler=async(event)=>{
     event.preventDefault()
    
     const email=emailRef.current.value;
@@ -24,7 +25,7 @@ const signupHandler=(event)=>{
     alert('Password does not matched . Try again one More Time!')
      else{
         setLoading(true)
-        fetch(url,{
+       await fetch(url,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -56,8 +57,12 @@ const signupHandler=(event)=>{
             passwordRef.current.value=''
             confirmpassRef.current.value=''
 
-            if(token)
+            if(token){
                 alert('Account created successfully')
+                navigate('/')
+            }
+                
+
         }).catch((error)=>{
             setLoading(false)
             alert(error.message)
@@ -72,7 +77,7 @@ const signupHandler=(event)=>{
         <Form onSubmit={signupHandler}>
             <Form.Group>
                 <Form.Label>Email:</Form.Label>
-                <Form.Control type="text" required ref={emailRef} ></Form.Control>
+                <Form.Control type="email" required ref={emailRef} ></Form.Control>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Password:</Form.Label>
@@ -84,9 +89,9 @@ const signupHandler=(event)=>{
             </Form.Group>
             {loading && <p>Sending...</p>}
             <Button className="w-100 mb-3" type="submit">Sign Up</Button>
-            <Button className="w-100">Have an account? Login</Button>
             
         </Form>
+        <Button className="w-100">Have an account? Login</Button>
         </div>
       </Container>
       </Fragment>
