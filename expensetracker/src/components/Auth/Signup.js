@@ -2,6 +2,9 @@ import React,{Fragment,useState,useEffect,useRef} from "react"
 import { Container,Button,Row,Col,Form } from "react-bootstrap"
 import "./Signup.css"
 import { useNavigate } from "react-router-dom"
+import Header from "../layout/header"
+import Footer from "../layout/Footer"
+
 const Signup=()=>{
 
     const [loading,setLoading]=useState(false)
@@ -12,7 +15,7 @@ const Signup=()=>{
     let error
     
     const switchpage=()=>{
-        navigate('/')
+        navigate('/login')
     }
 
 const signupHandler=async(event)=>{
@@ -62,7 +65,7 @@ const signupHandler=async(event)=>{
 
             if(token){
                 alert('Account created successfully')
-                navigate('/')
+                navigate('/login')
             }
                 
 
@@ -75,6 +78,7 @@ const signupHandler=async(event)=>{
 
     return(
         <Fragment>
+            <Header></Header>
       <Container className="d-flex justify-content-center align-items-center" >
         <div className="signupbox">
         <Form onSubmit={signupHandler}>
@@ -97,6 +101,7 @@ const signupHandler=async(event)=>{
         <Button className="w-100" onClick={switchpage}>Have an account? Login</Button>
         </div>
       </Container>
+    
       </Fragment>
     )
 }

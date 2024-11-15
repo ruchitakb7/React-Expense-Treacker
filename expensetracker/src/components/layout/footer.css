@@ -1,0 +1,15 @@
+
+footer {
+    border-top: 1px solid #444;
+   
+}
+
+footer a {
+    text-decoration: none;
+    color: #ccc;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
