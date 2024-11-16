@@ -1,9 +1,8 @@
-import React, { Fragment ,useState,useRef,useEffect,useContext} from "react";
+import React, { Fragment ,useState,useRef,useContext} from "react";
 import { Container,Form,Button } from "react-bootstrap";
 import "./Signup.css"
 import { useNavigate } from "react-router-dom";
 import Header from "../layout/header";
-import Footer from "../layout/Footer";
 import {AuthContext} from "../../store/AuthProvider";
 
 const Login=()=>{
@@ -15,6 +14,7 @@ const Login=()=>{
     const emailRef=useRef()
     const passwordRef=useRef()
     const navigate=useNavigate()
+    
     const switchpage=()=>{
       navigate('/signup')
     }

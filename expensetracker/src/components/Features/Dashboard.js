@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Container, Row, Col, Button, ListGroup } from 'react-bootstrap';
 import Header from '../layout/header';
 import Footer from '../layout/Footer';
 import './dash.css'; // Import the CSS styles
-import Profile from '../pages/Profile';
-
-
+import ProfileUpdate from '../pages/Profile';
+import { DashboardContext } from '../../store/DashBoardProvider';
+import Profile from './Profile';
 
 const DashBoard=()=> {
-  const [activeSection, setActiveSection] = useState(''); 
 
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
-  };
+  const {activeSection,handleSectionChange}=useContext(DashboardContext)
+  
 
   return (
     <div>
       <Header />
-
       <div className="main-container">
-   
         <div className="left-sidebar">
           <ListGroup >
-            <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('profile')}>
+            <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('Updateprofile')}>
               Update Profile
             </ListGroup.Item>
             <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('expenses')}>
@@ -37,10 +33,9 @@ const DashBoard=()=> {
         <div className="divider"></div> 
 
         <div className="right-content">
-       { activeSection === 'profile' && <Profile/>}
-          {/* {activeSection === 'profile' && <ProfileSection />}
-          {activeSection === 'expenses' && <ExpensesSection />}
-          {activeSection === 'chart' && <ChartSection />} */}
+       {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
+         {activeSection === 'Profile' && <Profile></Profile>}
+         
         </div>
       </div>
       <Footer />

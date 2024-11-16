@@ -1,10 +1,10 @@
 import React from "react";
 import ProfileForm from "../Auth/Profileform";
 
-const Profile=()=>{
+const ProfileUpdate=()=>{
     return(
-        <ProfileForm></ProfileForm>
+        <ProfileForm ></ProfileForm>
     )
 }
 
-export default Profile
+export default ProfileUpdate

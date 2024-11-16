@@ -1,6 +1,6 @@
 import React from "react";
 
-import DashBoard from "../Main/Dashboard";
+import DashBoard from "../Features/Dashboard";
 
 const DashBoardpage=()=>{
     return(

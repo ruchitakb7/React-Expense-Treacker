@@ -1,11 +1,14 @@
 import React,{Fragment,useState,useRef,useContext} from "react";
 import { Container,Row,Col,Form,Button } from "react-bootstrap";
-import "./profile.css"
+import "./profileform.css"
 import { AuthContext } from "../../store/AuthProvider";
+import { DashboardContext } from "../../store/DashBoardProvider";
 
 const ProfileForm=()=>{
 
     const ctx=useContext(AuthContext)
+    const {handleClose}=useContext(DashboardContext)
+   // console.log(dashctx)
     const nameref=useRef()
     const photourl=useRef()
 
@@ -50,21 +53,23 @@ return(
            <Form onSubmit={submitHandler}>
             <Form.Group className="mb-3">
                 <Form.Label> Full Name</Form.Label>
-                <Form.Control type="text" ref={nameref}></Form.Control>
+                <Form.Control type="text" ref={nameref} required></Form.Control>
             </Form.Group>
             <Form.Group  className="mb-4">
                 <Form.Label>Photo Link </Form.Label>
-                <Form.Control type="url" ref={photourl}></Form.Control>
+                <Form.Control type="url" ref={photourl} required></Form.Control>
             </Form.Group>
-            <Row style={{float:'right'}}>
+            <Row style={{float:'right',marginLeft:"3px"}}>
                 <Col>
                 <Button type="submit">Update</Button>
                 </Col>
-                <Col>
-                <Button type="onClick" >Cancel</Button>
+                </Row>
+           </Form>
+           <Row  style={{float:'right'}}>
+           <Col>
+                <Button type="onClick" onClick={handleClose}>Cancel</Button>
                 </Col>
             </Row>
-           </Form>
         </Container>
         </div>
     </Fragment>

@@ -4,12 +4,13 @@ import "./header.css"
 import { Navbar,Nav} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../store/AuthProvider";
-
+import { DashboardContext } from "../../store/DashBoardProvider";
 
 const Header=()=>{
   
   const ctx=useContext(AuthContext)
-  console.log(ctx)
+  
+  const {activeSection,handleSectionChange}=useContext(DashboardContext)
 
     return(
         <div className="header">
@@ -32,7 +33,12 @@ const Header=()=>{
                             </>
                         )}
                         {ctx.isLogin && (
+                            <>
                             <Button variant="danger" size="sm" onClick={ctx.logout}>Logout</Button>
+                            <Button size="sm" style={{marginLeft:"20px"}} 
+                            onClick={() => handleSectionChange('Profile')} >Profile</Button>
+                            
+                            </>
                         )}
             </Nav>
             </Container>
