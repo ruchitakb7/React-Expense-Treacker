@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment ,useContext} from "react";
 import { Image,Container,Row,Col,Button} from "react-bootstrap";
 import Header from "./header.js";
 import pic1 from "../../asset/pic1.jpeg"
@@ -6,8 +6,23 @@ import pic2 from "../../asset/pic2.jpg"
 import pic3 from "../../asset/pic3.jpg"
 import pic4 from "../../asset/pic4.jpg"
 import Footer from "./Footer.js";
+import { AuthContext } from "../../store/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Home=()=>{
+
+    const ctx=useContext(AuthContext)
+    console.log(ctx)
+
+    const navigate=useNavigate()
+
+    const switchpage=()=>{
+        if(ctx.isLogin)
+            navigate('/dashboard')
+        else
+        navigate('/login')
+    }
+
     return(
         <Fragment>
             <Header></Header>
@@ -20,7 +35,7 @@ const Home=()=>{
                     Manage your finances with our user-friendly expense tracker app.
                     Add, edit, and delete expenses effortlessly.
                    </p>
-                   <Button variant="primary" size="lg">Get Started</Button>
+                   <Button variant="primary" onClick={switchpage}size="lg">Get Started</Button>
                     </Col>
                     <Col md={6} className="d-none d-md-flex">
                         <Image src={pic1} alt="Expense Tracking" fluid />

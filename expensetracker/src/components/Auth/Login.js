@@ -1,12 +1,15 @@
-import React, { Fragment ,useState,useRef,useEffect} from "react";
+import React, { Fragment ,useState,useRef,useEffect,useContext} from "react";
 import { Container,Form,Button } from "react-bootstrap";
 import "./Signup.css"
 import { useNavigate } from "react-router-dom";
 import Header from "../layout/header";
 import Footer from "../layout/Footer";
-
+import {AuthContext} from "../../store/AuthProvider";
 
 const Login=()=>{
+
+    const ctx=useContext(AuthContext)
+    console.log(ctx)
 
     const [loading,setloading]=useState(false)
     const emailRef=useRef()
@@ -33,13 +36,14 @@ const Login=()=>{
         })
 
         const data= await response.json()
-        console.log(data)
         if(response.ok)
         {
+            console.log(data.idToken)
             setloading(false)
             alert('Login Succesfully')
             emailRef.current.value=''
             passwordRef.current.value=''
+            ctx.login(data.idToken)
         }
         else 
         throw new Error(data.error.message);
