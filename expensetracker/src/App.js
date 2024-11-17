@@ -6,6 +6,7 @@ import DashBoardPage from "./components/pages/DashBoard";
 import Home from "./components/layout/Home";
 import { AuthContext } from "./store/AuthProvider";
 import VerifyEmail from "./components/pages/Verifyemail";
+import Forgotpassword from "./components/Features/forgotpassword";
 
 function App() {
   const ctx = useContext(AuthContext); 
@@ -19,6 +20,7 @@ function App() {
         <>
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgotpassword" element={<Forgotpassword></Forgotpassword>}></Route>
         </>
       )}
       {
