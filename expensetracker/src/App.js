@@ -7,6 +7,7 @@ import Home from "./components/layout/Home";
 import { AuthContext } from "./store/AuthProvider";
 import VerifyEmail from "./components/pages/Verifyemail";
 import Forgotpassword from "./components/Features/forgotpassword";
+import Expense from "./components/Features/Expense";
 
 function App() {
   const ctx = useContext(AuthContext); 
@@ -25,7 +26,11 @@ function App() {
       )}
       {
         ctx.LoginPage && (
-          <Route path="/dashboard" element={<VerifyEmail />} />
+          <>
+           <Route path="/dashboard" element={<VerifyEmail />} />
+           <Route path="/expense" element={<Expense/>} />
+           </>
+         
         )
       }
     

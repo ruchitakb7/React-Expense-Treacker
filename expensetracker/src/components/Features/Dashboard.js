@@ -7,6 +7,7 @@ import ProfileUpdate from '../pages/Profile';
 import { DashboardContext } from '../../store/DashBoardProvider';
 import Profile from './Profile';
 import VerifyEmail from '../pages/Verifyemail';
+import Expense from './Expense';
 
 const DashBoard=()=> {
 
@@ -40,6 +41,7 @@ const DashBoard=()=> {
        {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
          {activeSection === 'Profile' && <Profile></Profile>}
          {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
+         {activeSection === 'expenses' && <Expense></Expense>}
          
         </div>
       </div>
