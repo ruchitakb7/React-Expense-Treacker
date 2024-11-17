@@ -6,6 +6,7 @@ import './dash.css'; // Import the CSS styles
 import ProfileUpdate from '../pages/Profile';
 import { DashboardContext } from '../../store/DashBoardProvider';
 import Profile from './Profile';
+import VerifyEmail from '../pages/Verifyemail';
 
 const DashBoard=()=> {
 
@@ -18,6 +19,9 @@ const DashBoard=()=> {
       <div className="main-container">
         <div className="left-sidebar">
           <ListGroup >
+          <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('Verifyemail')}>
+             Verify Email
+            </ListGroup.Item>
             <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('Updateprofile')}>
               Update Profile
             </ListGroup.Item>
@@ -35,6 +39,7 @@ const DashBoard=()=> {
         <div className="right-content">
        {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
          {activeSection === 'Profile' && <Profile></Profile>}
+         {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
          
         </div>
       </div>

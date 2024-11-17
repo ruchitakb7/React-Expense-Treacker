@@ -5,6 +5,7 @@ import LoginPage from "./components/pages/Login";
 import DashBoardPage from "./components/pages/DashBoard";
 import Home from "./components/layout/Home";
 import { AuthContext } from "./store/AuthProvider";
+import VerifyEmail from "./components/pages/Verifyemail";
 
 function App() {
   const ctx = useContext(AuthContext); 
@@ -20,7 +21,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
         </>
       )}
-
+      {
+        ctx.LoginPage && (
+          <Route path="/dashboard" element={<VerifyEmail />} />
+        )
+      }
     
       {ctx.isLogin ? (
         <Route path="/dashboard" element={<DashBoardPage />} />

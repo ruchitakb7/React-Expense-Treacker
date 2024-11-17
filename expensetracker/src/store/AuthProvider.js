@@ -15,6 +15,10 @@ const AuthProvider = ({ children }) => {
        
         localStorage.setItem('token',tokenId)
         setToken(tokenId)
+        setTimeout(()=>{
+            alert('Verify your Email.Ignore if you have alredy did.')
+      },6000)
+        navigate('/dashboard')
     };
 
     const logout = () => {
