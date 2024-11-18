@@ -1,150 +1,143 @@
-import React, { useState, Fragment } from "react";
+import React, { useState,useContext,useEffect } from "react";
+import { Form,Row,Col, Button, Table, Container } from "react-bootstrap";
+import './expense.css'
+import { ExpenseContext } from "../../store/ExpenseProvider";
 
-const Expense= () => {
-  
-  const [expense, setExpense] = useState({
+const ExpenseTracker = () => {
+
+  const [newexpense, setExpense] = useState({
     amount: "",
     description: "",
     category: "",
   });
+  const [expensid,setId]=useState('')
+ 
+  const { expenses, addExpense, fetchExpenses,deleteExpenses,updateExpense } = useContext(ExpenseContext);
 
-  
-  const [expenses, setExpenses] = useState([]);
   const handleInputChange = (e) => {
-    connectDataConnectEmulator.log('expense')
     const { name, value } = e.target;
-    setExpense((prevExpense) => ({
-      ...prevExpense,
-      [name]: value,
-    }));
+    setExpense((prevExpense) => ({ ...prevExpense, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const updateHandler=(expense)=>{
+    setExpense({
+      amount: expense.amount,
+      description: expense.description,
+      category: expense.category,
+      id:expense.id
+    });
+    setId(expense.id)
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (expense.amount && expense.description && expense.category) {
-      setExpenses((prevExpenses) => [...prevExpenses, expense]);
-      setExpense({ amount: "", description: "", category: "" }); 
+
+    if(expensid)
+    {
+      console.log(newexpense)
+      await updateExpense(expensid,newexpense);
     }
+    else{
+      await addExpense(newexpense)
+    }
+    
+    setExpense({ amount: "", description: "", category: "" });
+    setId('')
   };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
 
   return (
-    <Fragment>
-        <div style={{ width: "50%", margin: "50px auto", textAlign: "center" }}>
-          <h2>Expense Tracker</h2>
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              border: "1px solid #ccc",
-              padding: "20px",
-              borderRadius: "8px",
-            }}
-          >
-            <div style={{ marginBottom: "15px" }}>
-              <label>
-                Money Spent:
-                <input
-                  type="number"
-                  name="amount"
-                  value={expense.amount}
-                  onChange={handleInputChange}
-                  placeholder="Enter amount"
-                  required
-                  style={{ marginLeft: "10px", padding: "5px" }}
-                />
-              </label>
-            </div>
-            <div style={{ marginBottom: "15px" }}>
-              <label>
-                Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={expense.description}
-                  onChange={handleInputChange}
-                  placeholder="Enter description"
-                  required
-                  style={{ marginLeft: "10px", padding: "5px" }}
-                />
-              </label>
-            </div>
-            <div style={{ marginBottom: "15px" }}>
-              <label>
-                Category:
-                <select
-                  name="category"
-                  value={expense.category}
-                  onChange={handleInputChange}
-                  required
-                  style={{ marginLeft: "10px", padding: "5px" }}
-                >
-                  <option value="">Select a category</option>
-                  <option value="Food">Food</option>
-                  <option value="Petrol">Petrol</option>
-                  <option value="Salary">Salary</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-            </div>
-            <button type="submit" style={{ padding: "10px 20px" }}>
-              Add Expense
-            </button>
-          </form>
+    <Container className="form">
+      <h6 className="text-center mb-4 mt-4">Add Expenses</h6>
+      <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm">
+        <Row>
+          <Col>
+          <Form.Group controlId="formAmount">
+          <Form.Control
+            type="number"
+            name="amount"
+            value={newexpense.amount}
+            onChange={handleInputChange}
+            placeholder="Enter amount"
+            required
+          />
+        </Form.Group>
+          </Col>
+          <Col>
+          <Form.Group controlId="formDescription">
+          <Form.Control
+            type="text"
+            name="description"
+            value={newexpense.description}
+            onChange={handleInputChange}
+            placeholder="Enter description"
+            required
+          />
+        </Form.Group>
+          </Col>
+          <Col>
+          <Form.Group controlId="formCategory">
+          <Form.Select
+            name="category"
+            value={newexpense.category}
+            onChange={handleInputChange}
+            required>
+            <option value="">Select a category</option>
+            <option value="Food">Food</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Salary">Salary</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </Form.Select>
+        </Form.Group>
+          </Col>
+          <Col>
+          {expensid?(
+             <Button variant="primary" type="submit" >Click to Update</Button>
+          ):(
+            <Button variant="primary" type="submit" >Add Expense</Button>
+          )}
+         
+          </Col>
+        </Row>
+      </Form>
 
-          {/* Expenses List */}
-          <div style={{ marginTop: "30px" }}>
-            <h3>Expenses List</h3>
-            {expenses.length > 0 ? (
-              <table
-                style={{
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  marginTop: "10px",
-                }}
-              >
-                <thead>
-                  <tr>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                      Amount
-                    </th>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                      Description
-                    </th>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                      Category
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {expenses.map((exp, index) => (
-                    <tr key={index}>
-                      <td
-                        style={{ border: "1px solid #ccc", padding: "8px" }}
-                      >
-                        {exp.amount}
-                      </td>
-                      <td
-                        style={{ border: "1px solid #ccc", padding: "8px" }}
-                      >
-                        {exp.description}
-                      </td>
-                      <td
-                        style={{ border: "1px solid #ccc", padding: "8px" }}
-                      >
-                        {exp.category}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>No expenses added yet.</p>
-            )}
-          </div>
-        </div>
-      
-    </Fragment>
+      {/* Expenses List */}
+      <div className="mt-5">
+        <h3 className="text-center">Expenses List</h3>
+        {expenses.length > 0 ? (
+          <Table striped bordered hover responsive className="mt-3 text-center">
+            <thead >
+              <tr>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.map((exp) => (
+                <tr key={exp.id}>
+                  <td>{exp.amount}</td>
+                  <td>{exp.description}</td>
+                  <td>{exp.category}</td>
+                  <td>
+                    <Button size="sm" onClick={() => updateHandler(exp)} style={{marginRight:'20px'}} >Edit</Button>
+                    <Button variant='danger' size="sm" onClick={() => deleteExpenses(exp.id)}>Delete</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          <p className="text-center mt-3">No expenses added yet.</p>
+        )}
+      </div>
+    </Container>
   );
 };
 
-export default Expense;
+export default ExpenseTracker;

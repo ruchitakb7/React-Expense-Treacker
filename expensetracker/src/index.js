@@ -8,6 +8,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.css"
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './store/AuthProvider';
 import DashboardProvider from './store/DashBoardProvider';
+import ExpenseProvider from './store/ExpenseProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +16,9 @@ root.render(
       <BrowserRouter> 
       <AuthProvider>
         <DashboardProvider>
-        <App />
+          <ExpenseProvider>
+          <App />
+          </ExpenseProvider>
         </DashboardProvider>
       </AuthProvider>
         

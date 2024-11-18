@@ -1,0 +1,16 @@
+.form{
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px 4px rgb(0px,0px,0.3px);
+    max-width: 600px;
+    margin-top: 50px;
+}
+thead{
+    background-color: black;
+    
+   
+}
+ th{
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+ }

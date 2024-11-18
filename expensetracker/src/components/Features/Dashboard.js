@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext,useEffect } from 'react';
 import { Container, Row, Col, Button, ListGroup } from 'react-bootstrap';
 import Header from '../layout/header';
 import Footer from '../layout/Footer';
@@ -7,11 +7,13 @@ import ProfileUpdate from '../pages/Profile';
 import { DashboardContext } from '../../store/DashBoardProvider';
 import Profile from './Profile';
 import VerifyEmail from '../pages/Verifyemail';
-import Expense from './Expense';
+import ExpenseTracker from './Expense';
+
 
 const DashBoard=()=> {
 
   const {activeSection,handleSectionChange}=useContext(DashboardContext)
+ 
   
 
   return (
@@ -41,11 +43,11 @@ const DashBoard=()=> {
        {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
          {activeSection === 'Profile' && <Profile></Profile>}
          {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
-         {activeSection === 'expenses' && <Expense></Expense>}
+         {activeSection === 'expenses' && <ExpenseTracker></ExpenseTracker>}
          
         </div>
       </div>
-      <Footer />
+    
     </div>
   );
 }

@@ -36,6 +36,7 @@ const Login=()=>{
         })
 
         const data= await response.json()
+        console.log(data)
         if(response.ok)
         {
             console.log(data.idToken)
@@ -43,7 +44,7 @@ const Login=()=>{
             alert('Login Succesfully')
             emailRef.current.value=''
             passwordRef.current.value=''
-            ctx.login(data.idToken)
+            ctx.login(data.idToken,data.localId)
         }
         else 
         throw new Error(data.error.message);
