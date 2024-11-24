@@ -1,13 +1,19 @@
-import React,{Fragment,useContext,useState,useEffect} from "react";
+import React,{Fragment,useState,useEffect} from "react";
 import './Profile.css'
 import { Container,Row,Col,Button,Image } from "react-bootstrap";
-import { AuthContext } from "../../store/AuthProvider";
-import { DashboardContext } from "../../store/DashBoardProvider";
+import { useSelector,useDispatch } from "react-redux";
+import { handleClose } from "../../store/DashboardSlice";
+import { fetchExpenses } from "../../store/ExpenseSlice";
+
 const Profile=()=>{
 
-    const ctx = useContext(AuthContext);
-    const {handleClose}=useContext(DashboardContext)
+   const token= useSelector((state)=>state.auth.token)
+   const userId=useSelector((state)=>state.auth.userId)
+   const totalexpenseamount=useSelector((state)=>state.expenses.totalexpenseamount)
+
+
     const [userData, setUserData] = useState(null);
+    const dispatch=useDispatch()
   
     useEffect(() => {
       const fetchUserData = async () => {
@@ -15,29 +21,35 @@ const Profile=()=>{
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken: ctx.token }),
+          body: JSON.stringify({ idToken: token }),
         });
   
         const data = await response.json();
   
         if (response.ok) {
           setUserData(data.users[0]); 
-          console.log(data.users)
+          dispatch(fetchExpenses(userId));
+
+          if(!data.users[0].displayName || !data.users[0].photoUrl){
+            setTimeout(()=>{
+              alert('Your Profile is incomplete ,please update it')
+          },2000)}
+         
+        
         } else {
           console.error("Error fetching user data", data.error.message);
         }
       };
   
-      if (ctx.token) {
+      if (token) {
         fetchUserData();
-        
-      }
-    }, [ctx.token]);
+      }}, [token]);
 
     return(
       <Fragment>
         <div className="mainbox">
         {userData ? (
+        
              <Container>
              <Row className="mb-3 flaot-right">
                  <Col>
@@ -47,24 +59,30 @@ const Profile=()=>{
              <Row className="mb-3">
                 <Col md={3}>Name:</Col>
                 <Col>
-                <input value={userData.displayName}></input>
+                <input value={userData.displayName} readOnly></input>
                 </Col>
              </Row>
              <Row className="mb-3">
                 <Col md={3}>Email:</Col>
                 <Col>
-                <input value={userData.email}></input>
+                <input value={userData.email} readOnly></input>
+                </Col>
+             </Row>
+             <Row className="mb-3">
+                <Col md={3}>Total Expense:</Col>
+                <Col>
+                <input value={`$${totalexpenseamount}`}  readOnly></input>
                 </Col>
              </Row>
              <Row className="mb-3">
                 <Col md={3}>Account Created:</Col>
                 <Col>
-                <input value={new Date(Number(userData.createdAt)).toLocaleDateString()}></input>
+                <input value={new Date(Number(userData.createdAt)).toLocaleDateString()} readOnly></input>
                 </Col>
              </Row>
              <Row>
                 <Col md={3}>
-                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={()=>dispatch(handleClose())}>Close</Button>
                 </Col>
              </Row>
          </Container>

@@ -3,12 +3,16 @@ import { Container,Form,Button } from "react-bootstrap";
 import "./Signup.css"
 import { useNavigate } from "react-router-dom";
 import Header from "../layout/header";
-import {AuthContext} from "../../store/AuthProvider";
+import {login} from "../../store/AuthSlice"
+import { useSelector,useDispatch } from "react-redux";
+
 
 const Login=()=>{
 
-    const ctx=useContext(AuthContext)
-    console.log(ctx)
+    const isLogin=useSelector((state)=>state.auth.isLogin)
+    console.log(isLogin)
+
+    const dispatch=useDispatch()
 
     const [loading,setloading]=useState(false)
     const emailRef=useRef()
@@ -31,7 +35,7 @@ const Login=()=>{
         try{
         const response= await fetch(url,{
             method:'POST',
-            headers:{'Content-Type':'application/josn'},
+            headers:{'Content-Type':'application/json'},
             body:body
         })
 
@@ -39,12 +43,20 @@ const Login=()=>{
         console.log(data)
         if(response.ok)
         {
-            console.log(data.idToken)
+            
+            const idToken=data.idToken
+            const userId=data.localId
+          
             setloading(false)
             alert('Login Succesfully')
             emailRef.current.value=''
             passwordRef.current.value=''
-            ctx.login(data.idToken,data.localId)
+            dispatch(login({idToken,userId}))
+            setTimeout(()=>{
+                alert('Verify your Email.Ignore if you have alredy did.')
+          },6000)
+        navigate('/dashboard')
+          
         }
         else 
         throw new Error(data.error.message);

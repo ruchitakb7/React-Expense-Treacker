@@ -1,37 +1,36 @@
-import React, { useState,useContext,useEffect } from 'react';
-import { Container, Row, Col, Button, ListGroup } from 'react-bootstrap';
+import React from 'react';
+import { ListGroup } from 'react-bootstrap';
 import Header from '../layout/header';
-import Footer from '../layout/Footer';
-import './dash.css'; // Import the CSS styles
+import './dash.css'; 
 import ProfileUpdate from '../pages/Profile';
-import { DashboardContext } from '../../store/DashBoardProvider';
+import { handleSectionChange} from '../../store/DashboardSlice';
+import { useSelector,useDispatch } from 'react-redux';
 import Profile from './Profile';
 import VerifyEmail from '../pages/Verifyemail';
-import ExpenseTracker from './Expense';
-
+import ExpenseTracker from './Expenses';
 
 const DashBoard=()=> {
 
-  const {activeSection,handleSectionChange}=useContext(DashboardContext)
+  const activeSection=useSelector((state)=>state.dashboard.activeSection)
+  console.log(activeSection)
+  const dispatch=useDispatch()
  
-  
-
   return (
     <div>
       <Header />
       <div className="main-container">
         <div className="left-sidebar">
           <ListGroup >
-          <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('Verifyemail')}>
+          <ListGroup.Item className='list-space' action onClick={() => dispatch(handleSectionChange('Verifyemail'))}>
              Verify Email
             </ListGroup.Item>
-            <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('Updateprofile')}>
+            <ListGroup.Item className='list-space' action onClick={() => dispatch(handleSectionChange('Updateprofile'))}>
               Update Profile
             </ListGroup.Item>
-            <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('expenses')}>
+            <ListGroup.Item className='list-space' action onClick={() => dispatch(handleSectionChange('expenses'))}>
               Add Expenses
             </ListGroup.Item>
-            <ListGroup.Item className='list-space' action onClick={() => handleSectionChange('chart')}>
+            <ListGroup.Item className='list-space' action onClick={() => dispatch(handleSectionChange('chart'))}>
               Show Chart
             </ListGroup.Item>
           </ListGroup>
@@ -40,7 +39,7 @@ const DashBoard=()=> {
         <div className="divider"></div> 
 
         <div className="right-content">
-       {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
+         {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
          {activeSection === 'Profile' && <Profile></Profile>}
          {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
          {activeSection === 'expenses' && <ExpenseTracker></ExpenseTracker>}

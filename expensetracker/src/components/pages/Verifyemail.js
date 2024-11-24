@@ -1,13 +1,15 @@
 import React,{Fragment,useContext,useState,useEffect} from "react";
 
-import { AuthContext } from "../../store/AuthProvider";
-import { Modal,Container,Button} from "react-bootstrap";
-import { DashboardContext } from "../../store/DashBoardProvider";
+import { useSelector,useDispatch} from "react-redux";
+import { Modal,Button} from "react-bootstrap";
+import { handleClose } from "../../store/DashboardSlice";
 
 const VerifyEmail=()=>{
  
-    const {token}=useContext(AuthContext)
-    const {handleClose}=useContext(DashboardContext)
+  
+    const token=useSelector((state)=>state.auth.token)
+    const dispatch=useDispatch()
+   
     const [show,setModal]=useState(false)
     const [message,setMessage]=useState('')
     const verifyemail= async()=>{
@@ -24,13 +26,13 @@ const VerifyEmail=()=>{
         })})
 
         const data=await response.json()
-        console.log(data)
+      
         if (response.ok) {
-            console.log("Email sent successfully:", data);
+          
             setMessage("Email sent successfully")
             setModal(true)
           } else {
-            console.log("Error sending email:", data.error.message);
+           
             setMessage(data.error.message || "An unexpected error occurred.");
             setModal(true)
          
@@ -42,7 +44,7 @@ const VerifyEmail=()=>{
  }
    const onHide=()=>{
     setModal(false)
-    handleClose()
+     dispatch(handleClose())
    }
   useEffect(()=>{
     verifyemail()

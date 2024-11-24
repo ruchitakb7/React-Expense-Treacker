@@ -1,17 +1,18 @@
-import React,{useContext} from "react";
+import React from "react";
 import {Container, Button } from "react-bootstrap";
 import "./header.css"
 import { Navbar,Nav} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../store/AuthProvider";
-import { DashboardContext } from "../../store/DashBoardProvider";
+import { useSelector,useDispatch } from "react-redux";
+import { logout } from "../../store/AuthSlice";
+import { handleSectionChange } from "../../store/DashboardSlice";
+
 
 const Header=()=>{
   
-  const ctx=useContext(AuthContext)
+  const isLogin=useSelector((state)=>state.auth.isLogin)
+  const dispatch=useDispatch()
   
-  const {activeSection,handleSectionChange}=useContext(DashboardContext)
-
     return(
         <div className="header">
             <Container className="main">
@@ -22,7 +23,7 @@ const Header=()=>{
                 <Navbar sticky="top">
             <Container className="justify-content-center" style={{ flex: '1' }}>
             <Nav>
-                        {!ctx.isLogin && (
+                        {!isLogin ? (
                             <>
                                 <Nav.Link as={Link} to="/signup">
                                     <Button variant="outline-primary" className="me-2">Sign Up</Button>
@@ -31,15 +32,16 @@ const Header=()=>{
                                     <Button variant="primary">Login</Button>
                                 </Nav.Link>
                             </>
-                        )}
-                        {ctx.isLogin && (
+                        ):(
                             <>
-                            <Button variant="danger" size="sm" onClick={ctx.logout}>Logout</Button>
+                            <Button variant="danger" size="sm" onClick={()=>dispatch(logout())}>Logout</Button>
                             <Button size="sm" style={{marginLeft:"20px"}} 
-                            onClick={() => handleSectionChange('Profile')} >Profile</Button>
+                            onClick={() => dispatch(handleSectionChange('Profile'))} >Profile</Button>
                             
                             </>
-                        )}
+
+                        )}    
+                      
             </Nav>
             </Container>
             

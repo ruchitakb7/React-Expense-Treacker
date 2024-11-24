@@ -1,4 +1,4 @@
-import React, { Fragment ,useContext} from "react";
+import React, { Fragment } from "react";
 import { Image,Container,Row,Col,Button} from "react-bootstrap";
 import Header from "./header.js";
 import pic1 from "../../asset/pic1.jpeg"
@@ -6,18 +6,17 @@ import pic2 from "../../asset/pic2.jpg"
 import pic3 from "../../asset/pic3.jpg"
 import pic4 from "../../asset/pic4.jpg"
 import Footer from "./Footer.js";
-import { AuthContext } from "../../store/AuthProvider";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Home=()=>{
 
-    const ctx=useContext(AuthContext)
-    console.log(ctx)
+   const isLogin=useSelector((state)=>state.auth.isLogin)
 
     const navigate=useNavigate()
 
     const switchpage=()=>{
-        if(ctx.isLogin)
+        if(isLogin)
             navigate('/dashboard')
         else
         navigate('/login')

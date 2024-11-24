@@ -3,7 +3,7 @@ import { Container,Button,Row,Col,Form } from "react-bootstrap"
 import "./Signup.css"
 import { useNavigate } from "react-router-dom"
 import Header from "../layout/header"
-import Footer from "../layout/Footer"
+
 
 const Signup=()=>{
 

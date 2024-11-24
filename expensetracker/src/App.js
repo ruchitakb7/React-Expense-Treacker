@@ -4,20 +4,21 @@ import SignupPage from "./components/pages/Signup";
 import LoginPage from "./components/pages/Login";
 import DashBoardPage from "./components/pages/DashBoard";
 import Home from "./components/layout/Home";
-import { AuthContext } from "./store/AuthProvider";
+import { useSelector } from "react-redux";
 import VerifyEmail from "./components/pages/Verifyemail";
 import Forgotpassword from "./components/Features/forgotpassword";
-import Expense from "./components/Features/Expense";
+import Expense from "./components/Features/Expenses"
 
 function App() {
-  const ctx = useContext(AuthContext); 
+ 
+  const isLogin=useSelector((state)=>state.auth.isLogin)
 
   return (
     <Routes>
     
       <Route path="/" element={<Home />} />
 
-      {!ctx.isLogin && (
+      {!isLogin && (
         <>
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -25,22 +26,22 @@ function App() {
         </>
       )}
       {
-        ctx.LoginPage && (
+       isLogin && (
           <>
-           <Route path="/dashboard" element={<VerifyEmail />} />
+           {/* <Route path="/dashboard" element={<VerifyEmail />} /> */}
            <Route path="/expense" element={<Expense/>} />
            </>
          
         )
       }
     
-      {ctx.isLogin ? (
+      {isLogin ? (
         <Route path="/dashboard" element={<DashBoardPage />} />
       ) : (
         <Route path="/dashboard" element={<Navigate to="/login" />} />
       )}
 
-      <Route path="*" element={<Navigate to={ctx.isLogin ? "/dashboard" : "/login"} />} />
+      <Route path="*" element={<Navigate to={isLogin ? "/dashboard" : "/login"} />} />
     </Routes>
   );
 }

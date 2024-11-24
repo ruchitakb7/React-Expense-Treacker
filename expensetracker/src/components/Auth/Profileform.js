@@ -1,14 +1,14 @@
 import React,{Fragment,useState,useRef,useContext} from "react";
 import { Container,Row,Col,Form,Button } from "react-bootstrap";
 import "./profileform.css"
-import { AuthContext } from "../../store/AuthProvider";
-import { DashboardContext } from "../../store/DashBoardProvider";
+import { useSelector,useDispatch } from "react-redux";
+import { handleClose } from "../../store/DashboardSlice";
 
 const ProfileForm=()=>{
 
-    const ctx=useContext(AuthContext)
-    const {handleClose}=useContext(DashboardContext)
-   // console.log(dashctx)
+    const token=useSelector((state)=>state.auth.token)
+    const dispatch=useDispatch()
+
     const nameref=useRef()
     const photourl=useRef()
 
@@ -18,7 +18,7 @@ const submitHandler= async(event)=>{
     const body=JSON.stringify({
         displayName: nameref.current.value,
         photoUrl: photourl.current.value,
-        idToken:ctx.token,
+        idToken:token,
         returnSecureToken:true
     })
     try
@@ -40,13 +40,10 @@ const submitHandler= async(event)=>{
         throw new Error(data.Error.message)
     }catch(error){
         alert('Try One More Time')
-    }
-    
-}
+    }}
 
 return(
     <Fragment>
-         
         <div className="mainbox">
         <center> <h5>Contact Details</h5></center>
         <Container className="profile">
@@ -67,13 +64,12 @@ return(
            </Form>
            <Row  style={{float:'right'}}>
            <Col>
-                <Button type="onClick" onClick={handleClose}>Cancel</Button>
+                <Button type="onClick" onClick={()=>dispatch(handleClose())}>Cancel</Button>
                 </Col>
             </Row>
         </Container>
         </div>
     </Fragment>
-)
-}
+)}
 
 export default ProfileForm
