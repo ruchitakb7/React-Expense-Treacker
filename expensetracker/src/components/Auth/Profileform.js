@@ -7,6 +7,7 @@ import { handleClose } from "../../store/DashboardSlice";
 const ProfileForm=()=>{
 
     const token=useSelector((state)=>state.auth.token)
+    const { themeStyles } = useSelector((state) => state.theme.themeStyles);
     const dispatch=useDispatch()
 
     const nameref=useRef()
@@ -47,14 +48,14 @@ return(
         <div className="mainbox">
         <center> <h5>Contact Details</h5></center>
         <Container className="profile">
-           <Form onSubmit={submitHandler}>
+           <Form onSubmit={submitHandler} style={themeStyles}>
             <Form.Group className="mb-3">
                 <Form.Label> Full Name</Form.Label>
-                <Form.Control type="text" ref={nameref} required></Form.Control>
+                <Form.Control type="text" ref={nameref}  style={themeStyles} required></Form.Control>
             </Form.Group>
             <Form.Group  className="mb-4">
                 <Form.Label>Photo Link </Form.Label>
-                <Form.Control type="url" ref={photourl} required></Form.Control>
+                <Form.Control type="url" ref={photourl}  style={themeStyles} required></Form.Control>
             </Form.Group>
             <Row style={{float:'right',marginLeft:"3px"}}>
                 <Col>

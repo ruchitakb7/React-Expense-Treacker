@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Button, Table, Container } from "react-bootstrap";
+import { Form, Row, Col, Button, Table, Container,Image } from "react-bootstrap";
 import "./expense.css";
 import { useSelector, useDispatch } from "react-redux";
+import { premium } from "../../store/themeSlice";
 import {fetchExpenses,addExpenseAsync,updateExpenseAsync,deleteExpenseAsync} from "../../store/ExpenseSlice";
-
+import deletepic from "../../asset/deletepic.png"
+import editIcon from "../../asset/editPic.jpg"
 const ExpenseTracker = () => {
   const [newexpense, setExpense] = useState({
     amount: "",
@@ -13,8 +15,9 @@ const ExpenseTracker = () => {
   const [expensid, setId] = useState("");
 
   const dispatch = useDispatch();
-  const { expenses, loading, error } = useSelector((state) => state.expenses);
+  const { expenses,totalexpenseamount, loading, error } = useSelector((state) => state.expenses);
   const userId = useSelector((state) => state.auth.userId); 
+  const { isDarkMode, isPremium,themeStyles } = useSelector((state) => state.theme);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,8 +38,6 @@ const ExpenseTracker = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    
 
     if (expensid) {
       dispatch(updateExpenseAsync(userId, expensid, newexpense));
@@ -71,6 +72,7 @@ const ExpenseTracker = () => {
                 value={newexpense.amount}
                 onChange={handleInputChange}
                 placeholder="Enter amount"
+                style={themeStyles}
                 required
               />
             </Form.Group>
@@ -83,6 +85,7 @@ const ExpenseTracker = () => {
                 value={newexpense.description}
                 onChange={handleInputChange}
                 placeholder="Enter description"
+                style={themeStyles}
                 required
               />
             </Form.Group>
@@ -93,8 +96,8 @@ const ExpenseTracker = () => {
                 name="category"
                 value={newexpense.category}
                 onChange={handleInputChange}
-                required
-              >
+                style={themeStyles}
+                required>
                 <option value="">Select a category</option>
                 <option value="Food">Food</option>
                 <option value="Petrol">Petrol</option>
@@ -125,7 +128,8 @@ const ExpenseTracker = () => {
         ) : error ? (
           <p className="text-center mt-3 text-danger">{error}</p>
         ) : expenses.length > 0 ? (
-          <Table striped bordered hover responsive className="mt-3 text-center">
+          <Table striped bordered hover responsive className="mt-3 text-center"
+          variant={isDarkMode ? 'dark' : 'light'}>
             <thead>
               <tr>
                 <th>Amount</th>
@@ -141,20 +145,8 @@ const ExpenseTracker = () => {
                   <td>{expense.description}</td>
                   <td>{expense.category}</td>
                   <td>
-                    <Button
-                      size="sm"
-                      onClick={() => updateHandler(expense)}
-                      style={{ marginRight: "10px" }}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDelete(expense.id)}
-                    >
-                      Delete
-                    </Button>
+                    <Image className="img" onClick={() => updateHandler(expense)} src={editIcon} alt="" style={{marginRight:'10px'}}></Image>
+                    <Image className="img" onClick={() => handleDelete(expense.id)} src={deletepic} alt="" style={{marginLeft:'20px'}}></Image>
                   </td>
                 </tr>
               ))}

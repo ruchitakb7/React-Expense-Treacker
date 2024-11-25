@@ -8,10 +8,18 @@
     background-color: grey;
     position: relative;
   }
+
+ 
   
+
+.dashboard {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
  
   .left-sidebar {
-    background-color: #f4f4f4;
+  
     width: 20%;
     max-height: 100vh;
     overflow-y: auto; 
@@ -27,7 +35,6 @@
     max-height: 100vh;
     overflow-y: auto; 
     padding: 10px;
-   
   border: 1px solid ;
   }
   

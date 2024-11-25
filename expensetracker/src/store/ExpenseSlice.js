@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import { toggleTheme } from './themeSlice';
 
 const initialState = {
   expenses: [],
@@ -33,7 +34,7 @@ const expenseSlice = createSlice({
       const { id, updatedExpense } = action.payload;
       state.expenses = state.expenses.map((expense) => {
         if (expense.id === id) {
-          state.totalamountexpense += Number(updatedExpense.amount) - Number(expense.amount);
+          state.totalexpenseamount += Number(updatedExpense.amount) - Number(expense.amount);
           return { ...expense, ...updatedExpense };
         }
         return expense;
@@ -44,12 +45,12 @@ const expenseSlice = createSlice({
         const deletedExpense = state.expenses.find((expense) => expense.id === action.payload);
         state.expenses = state.expenses.filter((expense) => expense.id !== action.payload);
         if (deletedExpense) {
-          state.totalamountexpense -= Number(deletedExpense.amount);
+          state.totalexpenseamount -= Number(deletedExpense.amount);
+          
         }
     },
   },
 });
-
 
 export const {
   setLoading,
