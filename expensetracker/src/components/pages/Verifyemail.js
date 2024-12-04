@@ -1,4 +1,4 @@
-import React,{Fragment,useContext,useState,useEffect} from "react";
+import React,{useState,useEffect} from "react";
 
 import { useSelector,useDispatch} from "react-redux";
 import { Modal,Button} from "react-bootstrap";
@@ -29,16 +29,17 @@ const VerifyEmail=()=>{
       
         if (response.ok) {
           
-            setMessage("Email sent successfully")
-            setModal(true)
+           setMessage(" Email sent been successfully !")
+           setModal(true)
           } else {
            
-            setMessage(data.error.message || "An unexpected error occurred.");
-            setModal(true)
+           setMessage(data.error.message || "An unexpected error occurred.");
+           setModal(true)
          
           }
    }catch(error){
-    console.error("Request failed:", error);
+   
+   console.error("Request failed:", error);
    }
      
  }
@@ -50,13 +51,12 @@ const VerifyEmail=()=>{
     verifyemail()
   },[])
  
-
     return(
         <div> 
             <Modal show={show} onHide={onHide} centered size="sm">
                 <Modal.Header closeButton>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body  centered>
                     <p>{message}</p>
                 </Modal.Body>
                 <Modal.Footer>

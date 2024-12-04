@@ -1,7 +1,31 @@
 .mainbox{
    
-    margin-top: 90px;
+    margin-top: 70px;
      margin-left: 280px;
      width: 500px;
      min-height: auto;
+    
+}
+
+.profile{
+    width: 100%;
+    height: 100%;
+ 
+    margin-top: 0%;
+    padding: 20px;
+}
+
+.messagebox {
+    width: 300px;
+     height: 50px;
+    background-color: green;
+   
+    color: white;
+    border: 1px solid white;
+    border-radius: 50px;
+    margin-top: 20px;
+    padding: 5px;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+   
 }

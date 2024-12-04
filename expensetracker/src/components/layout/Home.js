@@ -50,12 +50,12 @@ const Home=()=>{
                     </Col>
                     <Col md={4}>
                     <Image src={pic3} alt="Feature 1" fluid />
-                    <h3 className="mt-3">Add Expenses</h3>
+                    <h3 className="mt-3">View Reports</h3>
                     <p>Get detailed reports and insights into your financial habits.</p>
                     </Col>
                     <Col md={4}>
                     <Image src={pic4} alt="Feature 1" fluid />
-                    <h3 className="mt-3">Add Expenses</h3>
+                    <h3 className="mt-3">Secure & Private</h3>
                     <p>Your data is safe with us. We prioritize your privacy and security.</p>
                     </Col>
                 </Row>

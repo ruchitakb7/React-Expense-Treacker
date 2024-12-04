@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
-    activeSection:'expenses'
+    activeSection:'profile',
+   
 }
 
 const DashboardSlice=createSlice({
@@ -14,8 +15,8 @@ const DashboardSlice=createSlice({
         },
         handleClose(state){
             state.activeSection='expenses'
-        }
-
+        },
+      
     }
 })
 

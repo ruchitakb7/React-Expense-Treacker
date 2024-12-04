@@ -1,9 +1,8 @@
-import React,{useEffect,useState} from 'react';
-import { ListGroup,Button,Image } from 'react-bootstrap';
+import React,{useEffect} from 'react';
+import { ListGroup,Button,Image} from 'react-bootstrap';
 import Header from '../layout/header';
 import './dash.css'; 
-import ProfileUpdate from '../pages/Profile';
-import { handleSectionChange} from '../../store/DashboardSlice';
+import { handleSectionChange } from '../../store/DashboardSlice';
 import { fetchExpenses } from '../../store/ExpenseSlice';
 import { premium, toggleTheme } from '../../store/themeSlice';
 import { useSelector,useDispatch } from 'react-redux';
@@ -13,17 +12,18 @@ import ExpenseTracker from './Expenses';
 import dark from "../../asset/dark.png"
 import lightmode from "../../asset/lightmode.png"
 import premiumIcon from "../../asset/premium.jpg"
+import Chart from "../Features/Chart"
 
 const DashBoard=()=> {
 
   const activeSection=useSelector((state)=>state.dashboard.activeSection)
   const {expenses,totalexpenseamount}=useSelector((state)=>state.expenses)
   const userId=useSelector((state)=>state.auth.userId)
+ 
   
   const { isDarkMode,isPremium, themeStyles } = useSelector((state) => state.theme);
   const dispatch=useDispatch()
-
-
+ 
   const handleDownload = () => {
     const headers = ['Amount,Description,Category'];
     const rows = expenses.map(
@@ -45,13 +45,16 @@ const DashBoard=()=> {
 
    useEffect(()=>{
      dispatch(fetchExpenses(userId))
-   },[])
+     dispatch(handleSectionChange('Profile'));
+   },[dispatch])
     
    useEffect(() => {
     if (totalexpenseamount < 10000 && isPremium) {
       dispatch(premium()); 
     }
   }, [totalexpenseamount, isPremium, dispatch]);
+
+  
   return (
     <div>
       <Header />
@@ -86,9 +89,6 @@ const DashBoard=()=> {
           <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('Verifyemail'))}>
              Verify Email
             </ListGroup.Item>
-            <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('Updateprofile'))}>
-              Update Profile
-            </ListGroup.Item>
             <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('expenses'))}>
               Add Expenses
             </ListGroup.Item>
@@ -101,14 +101,14 @@ const DashBoard=()=> {
         <div className="divider"></div> 
           
         <div className="right-content" style={themeStyles} >
-         {activeSection === 'Updateprofile' && <ProfileUpdate></ProfileUpdate>}
+       
          {activeSection === 'Profile' && <Profile></Profile>}
          {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
          {activeSection === 'expenses' && <ExpenseTracker></ExpenseTracker>}
-         
+         {activeSection === 'chart' && <Chart></Chart>}
+           
         </div>
       </div>
-    
     </div>
   );
 }

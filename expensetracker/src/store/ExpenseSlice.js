@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { toggleTheme } from './themeSlice';
+// import { useDispatch } from 'react-redux';
+// import { toggleTheme } from './themeSlice';
 
 const initialState = {
   expenses: [],
@@ -85,7 +85,7 @@ export const fetchExpenses = (userId) => async (dispatch) => {
   }
 };
 
-export const addExpenseAsync = (userId, expense) => async (dispatch) => {
+export const addExpenseAsync = (userId, expense) => async (dispatch,getState) => {
   dispatch(setLoading(true));
   try {
     const response = await fetch(`https://expensetracker-ebe3e-default-rtdb.firebaseio.com/users/${userId}/expenses.json`, {
@@ -97,6 +97,10 @@ export const addExpenseAsync = (userId, expense) => async (dispatch) => {
 
     const result = await response.json();
     dispatch(addExpense({ id: result.name, ...expense }));
+
+    const { totalexpenseamount } = getState().expenses;
+    await updateTotalExpense(userId, totalexpenseamount);
+
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -104,7 +108,7 @@ export const addExpenseAsync = (userId, expense) => async (dispatch) => {
   }
 };
 
-export const updateExpenseAsync = (userId, id, updatedExpense) => async (dispatch) => {
+export const updateExpenseAsync = (userId, id, updatedExpense) => async (dispatch,getState) => {
   dispatch(setLoading(true));
   try {
     const response = await fetch(`https://expensetracker-ebe3e-default-rtdb.firebaseio.com/users/${userId}/expenses/${id}.json`, {
@@ -115,6 +119,9 @@ export const updateExpenseAsync = (userId, id, updatedExpense) => async (dispatc
     if (!response.ok) throw new Error('Error updating expense');
 
     dispatch(updateExpense({ id, updatedExpense }));
+    const { totalexpenseamount } = getState().expenses;
+    await updateTotalExpense(userId, totalexpenseamount);
+
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
@@ -122,7 +129,7 @@ export const updateExpenseAsync = (userId, id, updatedExpense) => async (dispatc
   }
 };
 
-export const deleteExpenseAsync = (userId, id) => async (dispatch) => {
+export const deleteExpenseAsync = (userId, id) => async (dispatch,getState) => {
   dispatch(setLoading(true));
   try {
     const response = await fetch(`https://expensetracker-ebe3e-default-rtdb.firebaseio.com/users/${userId}/expenses/${id}.json`, {
@@ -131,11 +138,24 @@ export const deleteExpenseAsync = (userId, id) => async (dispatch) => {
     if (!response.ok) throw new Error('Error deleting expense');
 
     dispatch(deleteExpense(id));
+    const { totalexpenseamount } = getState().expenses;
+    await updateTotalExpense(userId, totalexpenseamount);
+
   } catch (error) {
     dispatch(setError(error.message));
   } finally {
     dispatch(setLoading(false));
   }
+};
+
+
+const updateTotalExpense = async (userId, totalexpenseamount) => {
+ // const totalExpense = expenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
+  await fetch(`https://expensetracker-ebe3e-default-rtdb.firebaseio.com/users/${userId}/totalexpenseamount.json`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(totalexpenseamount),
+  });
 };
 
 
