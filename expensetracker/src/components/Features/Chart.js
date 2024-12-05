@@ -94,7 +94,7 @@ const Chart = () => {
 
     return (
       <Fragment>
-        <h3 style={{marginTop:'60px'}}>Welcome To The Chart</h3>
+        <h4 style={{marginTop:'60px'}}>Aggregate Spending Across All Users</h4>
         <center>
         <div style={{width:'800px',height:'200px',padding:'20px'}}> 
             

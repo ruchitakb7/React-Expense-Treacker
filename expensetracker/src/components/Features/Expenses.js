@@ -104,10 +104,13 @@ const ExpenseTracker = () => {
                 onChange={handleInputChange}
                 style={themeStyles}
                 required>
-                
+                 <option value="">Select</option>
                 <option value="Food">Food</option>
                 <option value="Petrol">Petrol</option>
                 <option value="Salary">Salary</option>
+                <option value="Travel">Travel</option>
+                <option value="HealthCare">HealthCare</option>
+                <option value="shopping">Shopping</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Other">Other</option>
               </Form.Select>

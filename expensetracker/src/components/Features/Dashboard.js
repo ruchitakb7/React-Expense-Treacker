@@ -13,6 +13,7 @@ import dark from "../../asset/dark.png"
 import lightmode from "../../asset/lightmode.png"
 import premiumIcon from "../../asset/premium.jpg"
 import Chart from "../Features/Chart"
+import PersonalExpChart from './PersonalExpensesAnalysis';
 
 const DashBoard=()=> {
 
@@ -92,9 +93,13 @@ const DashBoard=()=> {
             <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('expenses'))}>
               Add Expenses
             </ListGroup.Item>
-            <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('chart'))}>
-              Show Chart
+            <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('personal expenditure'))}>
+            Personal Expenditure Analysis
             </ListGroup.Item>
+            <ListGroup.Item className='list-space' style={themeStyles} action onClick={() => dispatch(handleSectionChange('chart'))}>
+            Aggregate Spending Chart
+            </ListGroup.Item>
+            
           </ListGroup>
         </div>
 
@@ -106,6 +111,7 @@ const DashBoard=()=> {
          {activeSection === 'Verifyemail' && <VerifyEmail></VerifyEmail>}
          {activeSection === 'expenses' && <ExpenseTracker></ExpenseTracker>}
          {activeSection === 'chart' && <Chart></Chart>}
+         {activeSection === 'personal expenditure' && <PersonalExpChart></PersonalExpChart>}
            
         </div>
       </div>
